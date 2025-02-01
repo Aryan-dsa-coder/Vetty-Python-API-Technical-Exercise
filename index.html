@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Market Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #data { margin-top: 20px; }
+        button { margin: 5px; padding: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Crypto Market Dashboard</h1>
+    <button onclick="fetchNetworks()">Get Networks</button>
+    <button onclick="fetchTokenPrice()">Get Token Price</button>
+    <button onclick="fetchTokenInfo()">Get Token Info</button>
+    <button onclick="fetchTopPools()">Get Top Pools</button>
+    <div id="data"></div>
+
+    <script>
+        const API_BASE_URL = "http://127.0.0.1:5000";
+
+        async function fetchNetworks() {
+            const response = await fetch(`${API_BASE_URL}/networks`);
+            const data = await response.json();
+            document.getElementById("data").innerText = JSON.stringify(data, null, 2);
+        }
+
+        async function fetchTokenPrice() {
+            const network = prompt("Enter network name:");
+            const address = prompt("Enter token address:");
+            const response = await fetch(`${API_BASE_URL}/networks/${network}/token_price/${address}`);
+            const data = await response.json();
+            document.getElementById("data").innerText = JSON.stringify(data, null, 2);
+        }
+
+        async function fetchTokenInfo() {
+            const network = prompt("Enter network name:");
+            const address = prompt("Enter token address:");
+            const response = await fetch(`${API_BASE_URL}/networks/${network}/tokens/${address}`);
+            const data = await response.json();
+            document.getElementById("data").innerText = JSON.stringify(data, null, 2);
+        }
+
+        async function fetchTopPools() {
+            const network = prompt("Enter network name:");
+            const response = await fetch(`${API_BASE_URL}/networks/${network}/pools`);
+            const data = await response.json();
+            document.getElementById("data").innerText = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>
